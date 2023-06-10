@@ -13,7 +13,7 @@ Pydantic
 2. Install **docker-compose**: https://docs.docker.com/compose/install/
 
 3. Run command in terminal:
-> To execute the following commands you need to be in the root of the project\
+> To execute the following commands you need to be in the root of the project
 > 
 >Для  выполнения указанных команд необходимо перейти в корневую директорию проекта cd path/to/project
 
