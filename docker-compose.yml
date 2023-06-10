@@ -1,0 +1,44 @@
+version: '3.3'
+
+
+services:
+
+  polymedika_db:
+    image: postgres:12.3-alpine
+    restart: unless-stopped
+    container_name: polymedika_db
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: polymedika
+      POSTGRES_USER: polymedika
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - web
+
+
+  polymedika_api:
+    build: .
+    restart: unless-stopped
+    container_name: polymedika_api
+    command: sh run.sh
+    ports:
+      - 8080:8080
+    env_file:
+      - ./envs/.env
+    networks:
+      - web
+    depends_on:
+      - polymedika_db
+
+networks:
+  web:
+    external: true
+
+volumes:
+  db_data:
+    driver: local
+  storage:
+    driver: local
