@@ -15,7 +15,7 @@ Pydantic
 3. Run command in terminal:
 > To execute the following commands you need to be in the root of the project
 > 
->Для  выполнения указанных команд необходимо перейти в корневую директорию проекта cd path/to/project
+>Для выполнения указанных команд необходимо перейти в корневую директорию проекта cd path/to/project
 
 3.1 Build containers:
 ```
@@ -25,7 +25,8 @@ docker-compose up --build
 ```
 psql -U polymedika -d polymedika -h localhost -f fill_test_data.sql
 ```
->Для выполнения команды **psql** необходимо ввести пароль как указано: password
+>For command execute enter this password: **password**\
+>Для выполнения команды **psql** необходимо ввести пароль, как указано: **password**
 #### URLs ###
 FastApi Swagger: http://localhost:8080/docs
 #### Task_answers ###
