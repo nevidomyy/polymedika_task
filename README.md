@@ -17,9 +17,11 @@ Pydantic
 > 
 >Для  выполнения указанных команд необходимо перейти в корневую директорию проекта cd path/to/project
 
+3.1 Соберите контейнер:
 ```
 docker-compose up --build
 ```
+3.2 Заполните БД тестовыми данными:
 ```
 psql -U polymedika -d polymedika -h localhost -f fill_test_data.sql
 ```
