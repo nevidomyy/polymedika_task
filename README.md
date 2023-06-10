@@ -30,7 +30,7 @@ psql -U polymedika -d polymedika -h localhost -f fill_test_data.sql
 #### URLs ###
 FastApi Swagger: http://localhost:8080/docs
 #### Task_answers ###
-1. SQL код создания всех таблиц: *task_answers/CREATE_ALL_TABLE.sql*\
+1. SQL код создания всех таблиц: *task_answers/CREATE_ALL_TABLE.sql*
 2. SQL код запросов из задания: *task_answers/SQL Queryes for task.sql*
 3. ER диаграмма: *task_answers/ER.png*
 
