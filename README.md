@@ -15,7 +15,7 @@ Pydantic
 3. Run command in terminal:
 > To execute the following commands you need to be in the root of the project
 > 
->Для выполнения указанных команд необходимо перейти в корневую директорию проекта - *cd path/to/project*
+>Для выполнения указанных команд необходимо перейти в корневую директорию проекта (*cd path/to/project*)
 
 3.1 Build containers:
 ```
