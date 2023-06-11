@@ -14,7 +14,7 @@ async def create_grade(data: pd.CreateGrade):
         session.commit()
         session.refresh(obj)
 
-        return obj
+        return obj.__dict__
 
 
 @router.put('/grades{grade_id}')
