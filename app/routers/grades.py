@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from app.db import models, pydantic_models as pd
 from app.db.database import service_session

@@ -15,9 +15,9 @@ async def create_student(student: pd.Student):
             session.add(obj)
             session.commit()
             session.refresh(obj)
+            return obj.__dict__
         except IntegrityError:
             raise HTTPException(status_code=400, detail="Invalid foreign key value.")
-        return obj.__dict__
 
 
 @router.get('/students/{student_id}', response_model=pd.Student)
