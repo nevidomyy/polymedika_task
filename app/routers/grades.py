@@ -9,12 +9,12 @@ router = APIRouter()
 @router.post('/grades')
 async def create_grade(data: pd.CreateGrade):
     with service_session() as session:
-        grade = models.Grades(student_id=data.student_id, exam_id=data.exam_id, score=data.score)
-        session.add(grade)
+        obj = models.Grades(student_id=data.student_id, exam_id=data.exam_id, score=data.score)
+        session.add(obj)
         session.commit()
-        session.refresh(grade)
+        session.refresh(obj)
 
-        return grade
+        return obj
 
 
 @router.put('/grades{grade_id}')
