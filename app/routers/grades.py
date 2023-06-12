@@ -13,7 +13,6 @@ async def create_grade(data: pd.CreateGrade) -> pd.GradeResponse:
         session.add(obj)
         session.commit()
         session.refresh(obj)
-
         return pd.GradeResponse(**obj.__dict__)
 
 
@@ -24,5 +23,4 @@ async def update_grade(data: pd.UpdateGrade) -> pd.GradeResponse:
         obj.score = data.score
         session.commit()
         session.refresh(obj)
-
         return pd.GradeResponse(**obj.__dict__)
