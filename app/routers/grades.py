@@ -7,22 +7,22 @@ router = APIRouter()
 
 
 @router.post('/grades')
-async def create_grade(data: pd.CreateGrade):
+async def create_grade(data: pd.CreateGrade) -> pd.Grade:
     with service_session() as session:
         obj = models.Grades(student_id=data.student_id, exam_id=data.exam_id, score=data.score)
         session.add(obj)
         session.commit()
         session.refresh(obj)
 
-        return obj.__dict__
+        return pd.Grade(**obj.__dict__)
 
 
 @router.put('/grades{grade_id}')
-async def update_grade(data: pd.UpdateGrade):
+async def update_grade(data: pd.UpdateGrade) -> pd.Grade:
     with service_session() as session:
         obj = session.query(models.Grades).filter(models.Grades.id == data.grade_id).first()
         obj.score = data.score
         session.commit()
         session.refresh(obj)
 
-        return obj.__dict__
+        return pd.Grade(**obj.__dict__)

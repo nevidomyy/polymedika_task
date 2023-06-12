@@ -26,6 +26,13 @@ class StudentId(BaseModel):
         return value
 
 
+class Grade(BaseModel):
+    id: int
+    student_id: int
+    exam_id: int
+    score: int
+
+
 class Professor(BaseModel):
     id: int
     first_name: str
