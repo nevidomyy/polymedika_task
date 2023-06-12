@@ -85,14 +85,14 @@ class CreateGrade(BaseModel):
     def validate_student_id(cls, value):
         with service_session() as session:
             if not session.query(models.Student).filter(models.Student.id == value).first():
-                raise HTTPException(status_code=403, detail=f"Student with id {value} doesn't exist")
+                raise HTTPException(status_code=404, detail=f"Student with id {value} doesn't exist")
         return value
 
     @validator('course_id')
     def validate_course_id(cls, value):
         with service_session() as session:
             if not session.query(models.Course).filter(models.Course.id == value).first():
-                raise HTTPException(status_code=403, detail=f"Course with id {value} doesn't exist")
+                raise HTTPException(status_code=404, detail=f"Course with id {value} doesn't exist")
         return value
 
     @validator('exam_id')
@@ -101,7 +101,7 @@ class CreateGrade(BaseModel):
             if not session.query(models.Exam).join(models.AcademicPlan).filter(
                     models.AcademicPlan.course_id == values.get('course_id'),
                     models.Exam.id == value).first():
-                raise HTTPException(status_code=403, detail=f"Exam with id {value} not found for the course")
+                raise HTTPException(status_code=404, detail=f"Exam with id {value} not found for the course")
         return value
 
     @validator('score')
@@ -109,7 +109,7 @@ class CreateGrade(BaseModel):
         with service_session() as session:
             if session.query(models.Grades).filter(models.Grades.student_id == values.get('student_id'),
                                                    models.Grades.exam_id == values.get('exam_id')).first():
-                raise HTTPException(status_code=403, detail="Score for this exam already exists")
+                raise HTTPException(status_code=409, detail="Score for this exam already exists")
         return value
 
 
