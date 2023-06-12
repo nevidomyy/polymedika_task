@@ -21,7 +21,6 @@ async def create_course(course: pd.CreateCourse) -> pd.CourseResponse:
 async def get_course(course_id: int, params: pd.GetCourse = Depends()) -> pd.CourseResponse:
     with service_session() as session:
         obj = session.query(models.Course).filter(models.Course.id == course_id).first()
-
         return pd.CourseResponse(**obj.__dict__)
 
 
