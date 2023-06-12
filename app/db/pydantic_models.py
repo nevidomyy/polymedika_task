@@ -15,6 +15,17 @@ class Student(BaseModel):
     faculty_id: int
 
 
+class StudentResponse(BaseModel):
+    id: int
+    first_name: str
+    last_name: str
+    address: str
+    phone: str
+    course_id: int
+    group_id: int
+    faculty_id: int
+
+
 class StudentId(BaseModel):
     student_id: int
 
@@ -26,14 +37,7 @@ class StudentId(BaseModel):
         return value
 
 
-class Grade(BaseModel):
-    id: int
-    student_id: int
-    exam_id: int
-    score: int
-
-
-class Professor(BaseModel):
+class ProfessorResponse(BaseModel):
     id: int
     first_name: str
     last_name: str
@@ -53,6 +57,16 @@ class GetCourse(BaseModel):
 
 class Course(BaseModel):
     course: str
+
+
+class CourseResponse(BaseModel):
+    id: int
+    course: str
+
+
+class GradeResponse(BaseModel):
+    id: int
+    score: int
 
 
 class CreateGrade(BaseModel):

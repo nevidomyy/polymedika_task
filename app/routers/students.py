@@ -21,14 +21,14 @@ async def create_student(student: pd.Student):
 
 
 @router.get('/students/{student_id}', response_model=pd.Student)
-async def get_student(student_id: int, param: pd.StudentId = Depends()) -> pd.Student:
+async def get_student(student_id: int, param: pd.StudentId = Depends()) -> pd.StudentResponse:
     with service_session() as session:
         obj = session.query(models.Student).filter(models.Student.id == student_id).first()
-        return pd.Student(**obj.__dict__)
+        return pd.StudentResponse(**obj.__dict__)
 
 
 @router.put('/students/{student_id}', response_model=pd.Student)
-async def update_student(student_id: int, data: pd.Student, param: pd.StudentId = Depends()) -> pd.Student:
+async def update_student(student_id: int, data: pd.Student, param: pd.StudentId = Depends()) -> pd.StudentResponse:
     with service_session() as session:
         obj = session.query(models.Student).filter(models.Student.id == student_id).first()
         try:
@@ -39,7 +39,7 @@ async def update_student(student_id: int, data: pd.Student, param: pd.StudentId 
         except IntegrityError:
             raise HTTPException(status_code=400, detail="Invalid foreign key value.")
 
-        return pd.Student(**obj.__dict__)
+        return pd.StudentResponse(**obj.__dict__)
 
 
 @router.delete('/students/{student_id}')
