@@ -20,14 +20,14 @@ async def create_student(student: pd.Student):
             raise HTTPException(status_code=400, detail="Invalid foreign key value.")
 
 
-@router.get('/students/{student_id}', response_model=pd.Student)
+@router.get('/students/{student_id}', response_model=pd.StudentResponse)
 async def get_student(student_id: int, param: pd.StudentId = Depends()) -> pd.StudentResponse:
     with service_session() as session:
         obj = session.query(models.Student).filter(models.Student.id == student_id).first()
         return pd.StudentResponse(**obj.__dict__)
 
 
-@router.put('/students/{student_id}', response_model=pd.Student)
+@router.put('/students/{student_id}', response_model=pd.StudentResponse)
 async def update_student(student_id: int, data: pd.Student, param: pd.StudentId = Depends()) -> pd.StudentResponse:
     with service_session() as session:
         obj = session.query(models.Student).filter(models.Student.id == student_id).first()
