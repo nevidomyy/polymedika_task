@@ -1,10 +1,11 @@
 # Polymedica Task
 
 #### Software development stack ####
-Fastapi\
-SQLAlchemy\
-Alembic\
-Pydantic
+Fastapi - web framework для API\
+SQLAlchemy - ORM для работы с БД\
+Alembic - Управление миграциями\
+Pydantic - Валидация данных, с использованием @validator. Вся логика проверок вынесена в pd_models.py
+
 
 
 
