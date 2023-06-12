@@ -10,10 +10,14 @@ router = APIRouter()
 @router.post('/course', response_model=pd.CourseResponse)
 async def create_course(course: pd.CreateCourse) -> pd.CourseResponse:
     with service_session() as session:
-        obj = models.Course(**course.dict())
-        session.add(obj)
-        session.commit()
-        session.refresh(obj)
+        try:
+            obj = models.Course(**course.dict())
+            session.add(obj)
+            session.commit()
+            session.refresh(obj)
+        except Exception:
+            raise HTTPException(status_code=500, detail="Failed to create course")
+
         return pd.CourseResponse(**obj.__dict__)
 
 
