@@ -33,7 +33,7 @@ class StudentId(BaseModel):
     def validate_student(cls, value):
         with service_session() as session:
             if not session.query(models.Student).filter(models.Student.id == value).first():
-                raise HTTPException(status_code=403, detail=f'Student with id {value} does not exist')
+                raise HTTPException(status_code=404, detail=f'Student with id {value} does not exist')
         return value
 
 
@@ -51,7 +51,7 @@ class GetCourse(BaseModel):
     def validate_course_exist(cls, value):
         with service_session() as session:
             if not session.query(models.Course).filter(models.Course.id == value).first():
-                raise HTTPException(status_code=403, detail=f'Course with id {value} not found')
+                raise HTTPException(status_code=404, detail=f'Course with id {value} not found')
             return value
 
 
@@ -127,5 +127,5 @@ class UpdateGrade(BaseModel):
     def validate_grade_id(cls, value):
         with service_session() as session:
             if not session.query(models.Grades).filter(models.Grades.id == value).first():
-                raise HTTPException(status_code=403, detail=f"Grade with id {value} does not exist")
+                raise HTTPException(status_code=404, detail=f"Grade with id {value} does not exist")
         return value

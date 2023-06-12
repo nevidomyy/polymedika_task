@@ -7,7 +7,7 @@ from app.db.database import service_session
 router = APIRouter()
 
 
-@router.post('/course')
+@router.post('/course', response_model=pd.CourseResponse)
 async def create_course(course: pd.Course) -> pd.CourseResponse:
     with service_session() as session:
         try:
@@ -28,7 +28,7 @@ async def get_course(course_id: int, params: pd.GetCourse = Depends()) -> pd.Cou
         return pd.CourseResponse(**obj.__dict__)
 
 
-@router.get('/course/{course_id}/students')
+@router.get('/course/{course_id}/students', response_model=list[pd.StudentResponse])
 async def get_course_students(course_id: int) -> list[pd.StudentResponse]:
     with service_session() as session:
         objs = session.query(models.Student).filter(models.Student.course_id == course_id)

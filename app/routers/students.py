@@ -7,7 +7,7 @@ from app.db.database import service_session
 router = APIRouter()
 
 
-@router.post('/students')
+@router.post('/students', response_model=pd.StudentResponse)
 async def create_student(student: pd.Student):
     with service_session() as session:
         try:
@@ -15,7 +15,7 @@ async def create_student(student: pd.Student):
             session.add(obj)
             session.commit()
             session.refresh(obj)
-            return obj.__dict__
+            return pd.StudentResponse(**obj.__dict__)
         except IntegrityError:
             raise HTTPException(status_code=400, detail="Invalid foreign key value.")
 
