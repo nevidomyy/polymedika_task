@@ -1,4 +1,4 @@
-# Polymedica Task
+# Polymedika Task
 
 #### Software development stack ####
 Fastapi - web framework для API\
