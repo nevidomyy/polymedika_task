@@ -8,16 +8,13 @@ router = APIRouter()
 
 
 @router.post('/course', response_model=pd.CourseResponse)
-async def create_course(course: pd.Course) -> pd.CourseResponse:
+async def create_course(course: pd.CreateCourse) -> pd.CourseResponse:
     with service_session() as session:
-        try:
-            obj = models.Course(**course.dict())
-            session.add(obj)
-            session.commit()
-            session.refresh(obj)
-            return pd.CourseResponse(**obj.__dict__)
-        except IntegrityError:
-            raise HTTPException(status_code=409, detail='Already Exists')
+        obj = models.Course(**course.dict())
+        session.add(obj)
+        session.commit()
+        session.refresh(obj)
+        return pd.CourseResponse(**obj.__dict__)
 
 
 @router.get('/course/{course_id}', response_model=pd.CourseResponse)

@@ -55,8 +55,15 @@ class GetCourse(BaseModel):
             return value
 
 
-class Course(BaseModel):
+class CreateCourse(BaseModel):
     course: str
+
+    @validator('course')
+    def validate_course_exist(cls, value):
+        with service_session() as session:
+            if session.query(models.Course).filter(models.Course.course == value).first():
+                raise HTTPException(status_code=409, detail='Already Exists')
+            return value
 
 
 class CourseResponse(BaseModel):
