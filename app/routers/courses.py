@@ -15,9 +15,9 @@ async def create_course(course: pd.Course) -> pd.CourseResponse:
             session.add(obj)
             session.commit()
             session.refresh(obj)
+            return pd.CourseResponse(**obj.__dict__)
         except IntegrityError:
-            raise HTTPException(status_code=403, detail='Already Exists')
-        return pd.CourseResponse(**obj.__dict__)
+            raise HTTPException(status_code=409, detail='Already Exists')
 
 
 @router.get('/course/{course_id}', response_model=pd.CourseResponse)
