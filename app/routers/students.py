@@ -9,6 +9,9 @@ router = APIRouter()
 
 @router.post('/students', response_model=schemas.StudentResponse)
 async def create_student(student: schemas.Student):
+    """
+    Create new student in database
+    """
     with service_session() as session:
         try:
             obj = models.Student(**student.dict())
@@ -22,6 +25,9 @@ async def create_student(student: schemas.Student):
 
 @router.get('/students/{student_id}', response_model=schemas.StudentResponse)
 async def get_student(student_id: int, param: schemas.StudentId = Depends()) -> schemas.StudentResponse:
+    """
+    Get student from database
+    """
     with service_session() as session:
         obj = session.query(models.Student).filter(models.Student.id == student_id).first()
         return schemas.StudentResponse(**obj.__dict__)
@@ -30,6 +36,9 @@ async def get_student(student_id: int, param: schemas.StudentId = Depends()) -> 
 @router.put('/students/{student_id}', response_model=schemas.StudentResponse)
 async def update_student(student_id: int, data: schemas.Student,
                          param: schemas.StudentId = Depends()) -> schemas.StudentResponse:
+    """
+    Update student in database
+    """
     with service_session() as session:
         obj = session.query(models.Student).filter(models.Student.id == student_id).first()
         try:
@@ -45,6 +54,9 @@ async def update_student(student_id: int, data: schemas.Student,
 
 @router.delete('/students/{student_id}')
 async def delete_student(student_id: int, param: schemas.StudentId = Depends()):
+    """
+    Delete student from database
+    """
     with service_session() as session:
         student = session.query(models.Student).filter(models.Student.id == student_id).first()
         session.delete(student)
