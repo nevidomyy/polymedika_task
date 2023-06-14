@@ -1,34 +1,35 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.exc import IntegrityError
 
-from app.db import models, schemas as pd
+from app.db import models, schemas
 from app.db.database import service_session
 
 router = APIRouter()
 
 
-@router.post('/students', response_model=pd.StudentResponse)
-async def create_student(student: pd.Student):
+@router.post('/students', response_model=schemas.StudentResponse)
+async def create_student(student: schemas.Student):
     with service_session() as session:
         try:
             obj = models.Student(**student.dict())
             session.add(obj)
             session.commit()
             session.refresh(obj)
-            return pd.StudentResponse(**obj.__dict__)
+            return schemas.StudentResponse(**obj.__dict__)
         except IntegrityError:
             raise HTTPException(status_code=400, detail="Invalid foreign key value.")
 
 
-@router.get('/students/{student_id}', response_model=pd.StudentResponse)
-async def get_student(student_id: int, param: pd.StudentId = Depends()) -> pd.StudentResponse:
+@router.get('/students/{student_id}', response_model=schemas.StudentResponse)
+async def get_student(student_id: int, param: schemas.StudentId = Depends()) -> schemas.StudentResponse:
     with service_session() as session:
         obj = session.query(models.Student).filter(models.Student.id == student_id).first()
-        return pd.StudentResponse(**obj.__dict__)
+        return schemas.StudentResponse(**obj.__dict__)
 
 
-@router.put('/students/{student_id}', response_model=pd.StudentResponse)
-async def update_student(student_id: int, data: pd.Student, param: pd.StudentId = Depends()) -> pd.StudentResponse:
+@router.put('/students/{student_id}', response_model=schemas.StudentResponse)
+async def update_student(student_id: int, data: schemas.Student,
+                         param: schemas.StudentId = Depends()) -> schemas.StudentResponse:
     with service_session() as session:
         obj = session.query(models.Student).filter(models.Student.id == student_id).first()
         try:
@@ -39,11 +40,11 @@ async def update_student(student_id: int, data: pd.Student, param: pd.StudentId 
         except IntegrityError:
             raise HTTPException(status_code=400, detail="Invalid foreign key value.")
 
-        return pd.StudentResponse(**obj.__dict__)
+        return schemas.StudentResponse(**obj.__dict__)
 
 
 @router.delete('/students/{student_id}')
-async def delete_student(student_id: int, param: pd.StudentId = Depends()):
+async def delete_student(student_id: int, param: schemas.StudentId = Depends()):
     with service_session() as session:
         student = session.query(models.Student).filter(models.Student.id == student_id).first()
         session.delete(student)
