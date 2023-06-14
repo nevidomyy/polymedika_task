@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter
 
-from app.db import models, pydantic_models as pd
+from app.db import models, schemas as pd
 from app.db.database import service_session
 
 router = APIRouter()
