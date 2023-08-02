@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from pydantic import BaseModel, validator
+from pydantic import field_validator, BaseModel
 
 from app.db import models
 from app.db.database import service_session
@@ -29,8 +29,8 @@ class StudentResponse(BaseModel):
 class StudentId(BaseModel):
     student_id: int
 
-    @validator('student_id')
-    def validate_student(cls, value):
+    @field_validator('student_id')
+    def validate_student(cls, value: int) -> int:
         with service_session() as session:
             if not session.query(models.Student).filter(models.Student.id == value).first():
                 raise HTTPException(status_code=404, detail=f'Student with id {value} does not exist')
@@ -47,8 +47,8 @@ class ProfessorResponse(BaseModel):
 class GetCourse(BaseModel):
     course_id: int
 
-    @validator('course_id')
-    def validate_course_exist(cls, value):
+    @field_validator('course_id')
+    def validate_course_exist(cls, value: int) -> int:
         with service_session() as session:
             if not session.query(models.Course).filter(models.Course.id == value).first():
                 raise HTTPException(status_code=404, detail=f'Course with id {value} not found')
@@ -58,7 +58,7 @@ class GetCourse(BaseModel):
 class CreateCourse(BaseModel):
     course: str
 
-    @validator('course')
+    @field_validator('course')
     def validate_course_exist(cls, value):
         with service_session() as session:
             if session.query(models.Course).filter(models.Course.course == value).first():
@@ -82,27 +82,27 @@ class CreateGrade(BaseModel):
     exam_id: int
     score: int
 
-    @validator('score')
+    @field_validator('score')
     def validate_score(cls, score):
         if score < 1 or score > 5:
             raise ValueError('The score must be between 1 and 5')
         return score
 
-    @validator('student_id')
+    @field_validator('student_id')
     def validate_student_id(cls, value):
         with service_session() as session:
             if not session.query(models.Student).filter(models.Student.id == value).first():
                 raise HTTPException(status_code=404, detail=f"Student with id {value} doesn't exist")
         return value
 
-    @validator('course_id')
+    @field_validator('course_id')
     def validate_course_id(cls, value):
         with service_session() as session:
             if not session.query(models.Course).filter(models.Course.id == value).first():
                 raise HTTPException(status_code=404, detail=f"Course with id {value} doesn't exist")
         return value
 
-    @validator('exam_id')
+    @field_validator('exam_id')
     def validate_exam_id(cls, value, values):
         with service_session() as session:
             if not session.query(models.Exam).join(models.AcademicPlan).filter(
@@ -111,7 +111,7 @@ class CreateGrade(BaseModel):
                 raise HTTPException(status_code=404, detail=f"Exam with id {value} not found for the course")
         return value
 
-    @validator('score')
+    @field_validator('score')
     def validate_existing_score(cls, value, values):
         with service_session() as session:
             if session.query(models.Grades).filter(models.Grades.student_id == values.get('student_id'),
@@ -124,13 +124,13 @@ class UpdateGrade(BaseModel):
     grade_id: int
     score: int
 
-    @validator('score')
+    @field_validator('score')
     def validate_score(cls, score):
         if score < 1 or score > 5:
             raise ValueError('The score must be between 1 and 5')
         return score
 
-    @validator('grade_id')
+    @field_validator('grade_id')
     def validate_grade_id(cls, value):
         with service_session() as session:
             if not session.query(models.Grades).filter(models.Grades.id == value).first():
